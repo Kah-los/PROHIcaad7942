@@ -16,7 +16,7 @@ _Here you can include images, like the logo from SU_
 ## Screenshots
 ![Your dashboard](./assets/About.png)
 ![Your dashboard](./assets/Dashboard.png)
-![Your dashboard](./assets/Data.png)
+![Your dashboard](./assets/data 2.png)
 ## Introduction
 
 _This template project will contain a simple interactive web dashboard with Streamlit. Feel free to edit this document as desired_
