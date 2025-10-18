@@ -1,62 +1,23 @@
 import streamlit as st
-from datetime import date
 
-# ── Page config ────────────────────────────────────────────────────────────────
-st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="wide")
+st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="centered")
 
-# ── Minimal sidebar ───────────────────────────────────────────────────────────
-st.sidebar.image("./assets/project-logo.jpg", use_container_width=True)
- 
- 
+st.sidebar.image("./assets/project-logo.jpg", width="stretch")
+st.sidebar.info("Use the left menu to navigate to other pages.")
+
+st.title("Welcome to Stroke Risk Prediction Dashboard")
+st.caption("Teaching demo • Not for clinical use")
+
+st.subheader("Aims")
 st.markdown(
     """
-    <style>
-      .hero h1 { margin-bottom: .25rem; }
-      .tagline { opacity:.8; margin-bottom: 1.25rem; }
-      .card { padding:1rem; border:1px solid rgba(255,255,255,.08);
-              border-radius:16px; }
-      .card h3 { margin:0 0 .5rem 0; }
-      .small { opacity:.7; font-size:.9rem; }
-      footer { opacity:.6; font-size:.85rem; padding-top:1rem; }
-    </style>
-    """,
-    unsafe_allow_html=True,
+The final project aims to apply data science concepts and skills to a medical case study selected from a public dataset.  
+It demonstrates how analytical and technical Python skills from **Data Science for Health Informatics (DSHI)**  
+can be applied to understand, model, and visualize health data in a reproducible and interpretable way.  
+
+The project emphasizes:
+- Using data-driven methods to identify stroke-related risk patterns  
+- Building transparent and ethical decision-support tools  
+- Presenting results through clear, interactive dashboards
+"""
 )
-
-
-st.markdown('<div class="hero">', unsafe_allow_html=True)
-st.title("Stroke Risk Dashboard")
-st.markdown('<div class="tagline">Concise. Interactive. Reproducible.</div>', unsafe_allow_html=True)
-st.markdown("</div>", unsafe_allow_html=True)
-
-
-left, right = st.columns(2)
-
-with left:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("Project")
-    st.write("One-page overview of the workflow and design choices.")
-    st.page_link("pages/1_Project.py", label="Open Project", icon="📄")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-with right:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.subheader("Data Explorer")
-    st.write("Edit records, test inputs, and view the risk distribution.")
-    st.page_link("pages/2_Data_Explorer.py", label="Open Data Explorer", icon="📊")
-    st.markdown('</div>', unsafe_allow_html=True)
-
-
-k1, k2, k3, k4 = st.columns(4)
-k1.metric("Pages", "2")
-k2.metric("Status", "Active")
-k3.metric("Theme", "Dark")
-k4.metric("Today", date.today().strftime("%Y-%m-%d"))
-
-
-st.markdown("<hr/>", unsafe_allow_html=True)
-st.markdown(
-    '<footer>© PROHI Carlos · Teaching demo (not for clinical use)</footer>',
-    unsafe_allow_html=True,
-)
-
