@@ -6,7 +6,7 @@ st.sidebar.image("./assets/project-logo.jpg", width="stretch")
 st.sidebar.info("Use the left menu to navigate to other pages.")
 
 st.title("Welcome to Stroke Risk Prediction Dashboard")
-st.caption("Teaching demo • Not for clinical use")
+
 
 st.subheader("Aims")
 st.markdown(
