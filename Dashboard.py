@@ -4,25 +4,25 @@ import pandas as pd
 import plotly.express as px
 from datetime import date
 
-
+# ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="wide")
 
-
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.image("./assets/project-logo.jpg", width="stretch")
 st.sidebar.info("Use the left menu to navigate to other pages.")
 
-
+# ── Light styling ─────────────────────────────────────────────────────────────
 st.markdown(
     """
     <style>
-      .card {padding:1rem;border:1px solid rgba(255,255,255,.08);border-radius:16px}
+      .card {padding:1rem;border:1px solid rgba(255,255,255,.1);border-radius:16px}
       .muted {opacity:.7}
     </style>
     """,
     unsafe_allow_html=True,
 )
 
-
+# ── Title & Aims ──────────────────────────────────────────────────────────────
 st.title("Welcome to Stroke Risk Prediction Dashboard")
 st.caption("Teaching demo • Not for clinical use")
 
@@ -40,7 +40,7 @@ The project emphasizes:
 """
 )
 
-
+# ── Overview (small KPIs + compact chart) ─────────────────────────────────────
 st.markdown("### Overview")
 
 @st.cache_data
@@ -62,13 +62,13 @@ k2.metric("Mean Age", f"{df['Age'].mean():.0f}")
 k3.metric("AFib Prevalence", f"{(df['AFib'].mean()*100):.1f}%")
 k4.metric("Avg Risk", f"{df['Risk'].mean():.2f}")
 
-# compact distribution card
 c1, c2 = st.columns([2, 1])
+
 with c1:
     st.markdown('<div class="card">', unsafe_allow_html=True)
     fig = px.histogram(df, x="Risk", nbins=30, title="Risk Distribution (synthetic)")
-    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)
-    st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)  # Plotly expects numeric height/width
+    st.plotly_chart(fig, width="stretch")  # Streamlit sizing (no deprecation)
     st.markdown('</div>', unsafe_allow_html=True)
 
 with c2:
@@ -79,7 +79,7 @@ with c2:
 - Generated: **{date.today().isoformat()}**  
 - SBP range: {int(df['SBP'].min())}–{int(df['SBP'].max())} mmHg  
 - Risk range: {df['Risk'].min():.2f}–{df['Risk'].max():.2f}  
-- Click **Data Explorer** (left) for interactive edits and downloads.
+- Open **Data Explorer** (left) for interactive edits and downloads.
         """
     )
     st.markdown('</div>', unsafe_allow_html=True)
