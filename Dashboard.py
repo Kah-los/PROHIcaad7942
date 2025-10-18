@@ -4,14 +4,14 @@ import pandas as pd
 import plotly.express as px
 from datetime import date
 
-# ── Page config ───────────────────────────────────────────────────────────────
+
 st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="wide")
 
-# ── Sidebar ───────────────────────────────────────────────────────────────────
+
 st.sidebar.image("./assets/project-logo.jpg", width="stretch")
 st.sidebar.info("Use the left menu to navigate to other pages.")
 
-# ── Light styling ─────────────────────────────────────────────────────────────
+
 st.markdown(
     """
     <style>
@@ -21,8 +21,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-# ── Title & Aims ──────────────────────────────────────────────────────────────
+ 
 st.title("Welcome to Stroke Risk Prediction Dashboard")
 st.caption("Teaching demo • Not for clinical use")
 
@@ -40,7 +39,7 @@ The project emphasizes:
 """
 )
 
-# ── Overview (small KPIs + compact chart) ─────────────────────────────────────
+
 st.markdown("### Overview")
 
 @st.cache_data
@@ -67,8 +66,8 @@ c1, c2 = st.columns([2, 1])
 with c1:
     st.markdown('<div class="card">', unsafe_allow_html=True)
     fig = px.histogram(df, x="Risk", nbins=30, title="Risk Distribution (synthetic)")
-    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)  # numeric sizes only
-    st.plotly_chart(fig, config={"responsive": True})  # ← new API (no deprecated kwargs)
+    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)  
+    st.plotly_chart(fig, config={"responsive": True})  
     st.markdown('</div>', unsafe_allow_html=True)
 
 with c2:
