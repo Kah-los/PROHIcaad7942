@@ -15,7 +15,7 @@ _Here you can include images, like the logo from SU_
 
 ## Screenshots
 ![Your dashboard](assets/AboutN.png)
-![Your dashboard](./assets/Dashboard.png)
+![Your dashboard](assets/DASH1.png)
 ![Your dashboard](assets/dataexplorer.png)
 ## Introduction
 
