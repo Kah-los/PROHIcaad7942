@@ -67,8 +67,8 @@ c1, c2 = st.columns([2, 1])
 with c1:
     st.markdown('<div class="card">', unsafe_allow_html=True)
     fig = px.histogram(df, x="Risk", nbins=30, title="Risk Distribution (synthetic)")
-    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)  # Plotly expects numeric height/width
-    st.plotly_chart(fig, width="stretch")  # Streamlit sizing (no deprecation)
+    fig.update_layout(margin=dict(l=10, r=10, t=40, b=10), height=280)  # numeric sizes only
+    st.plotly_chart(fig, config={"responsive": True})  # ← new API (no deprecated kwargs)
     st.markdown('</div>', unsafe_allow_html=True)
 
 with c2:
