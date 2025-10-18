@@ -16,7 +16,7 @@ _Here you can include images, like the logo from SU_
 ## Screenshots
 ![Your dashboard](./assets/About.png)
 ![Your dashboard](./assets/Dashboard.png)
-![Your dashboard](./assets/data 2.png)
+![Your dashboard](assets/data2.png)
 ## Introduction
 
 _This template project will contain a simple interactive web dashboard with Streamlit. Feel free to edit this document as desired_
@@ -33,7 +33,7 @@ If you are using Mac, you may need to install Xcode. Check the official Streamli
 2. Activate the virtual environment for Python
    - [Linux/Mac] source env/bin/activate 
    - [Windows command prompt] .\env\Scripts\activate.bat 
-   - [in Windows PowerShell] .\env\Scripts\Activate.ps1
+   - [in Windows PowerShell] .\env\Scripts\Activate.ps1 
 3. Make sure that your terminal is in the environment (env) not in the global Python installation. The terminal should start with the word env
 4. Install required packages pip install -r ./requirements.txt
 5. Check that the installation works running streamlit hello
