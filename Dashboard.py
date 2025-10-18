@@ -1,29 +1,24 @@
 import streamlit as st
-import numpy as np
-st.set_page_config(
-    page_title="PROHI Carlos",
-    page_icon="👋",
+
+st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="wide")
+
+st.sidebar.image("./assets/project-logo.jpg", use_column_width=True)
+st.sidebar.info("Use the left menu to navigate between pages.")
+
+st.title("Welcome to Stroke Risk Prediction Dashboard")
+st.subheader("Aims")
+st.markdown(
+    """
+The final project applies data science concepts and skills to a medical case study from a public data source.
+It assumes prior Python skills (DSHI) and the ability to argue how and why specific techniques enhance the selected problem domain.
+"""
 )
 
-# Sidebar configuration
-st.sidebar.image("./assets/project-logo.jpg",)
-st.sidebar.success("Select a tab above.")
-tab = st.sidebar.radio(
-    "Navigate",
-    ["Home","Project","Data"]
+c1, c2, c3 = st.columns(3)
+c1.metric("Pages", "2")
+c2.metric("Status", "Active")
+c3.metric("Theme", "Dark")
 
-)
-
-# # Page information
-# Main content based on selected tab
-if tab == "Home":
-    st.write("# Welcome to Stroke Risk Prediction Dashboard")
-    st.write("## Aims:")
-    st.markdown("""
-    The final project aims to apply data science concepts and skills on a medical case study that you and your team select from a public data source.
-    The project assumes that you bring the technical Python skills from previous courses (DSHI: Data Science for Health Informatics),
-    as well as the analytical skills to argue how and why specific techniques could enhance the problem domain related to the selected dataset.
-    """)
 
 
 elif tab == "Project":
