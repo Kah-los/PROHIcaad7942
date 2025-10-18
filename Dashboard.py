@@ -1,132 +1,66 @@
 import streamlit as st
+from datetime import date
 
+# ---------- Page config ----------
 st.set_page_config(page_title="PROHI Carlos", page_icon="🧠", layout="wide")
 
-st.sidebar.image("./assets/project-logo.jpg", use_column_width=True)
-st.sidebar.info("Use the left menu to navigate between pages.")
+# ---------- Sidebar ----------
+st.sidebar.image("./assets/project-logo.jpg", use_container_width=True)
+st.sidebar.info("Use the left menu to open each page (Project, Data Explorer, etc.).")
 
+# ---------- Header ----------
 st.title("Welcome to Stroke Risk Prediction Dashboard")
+st.caption("Teaching demo • Not for clinical use")
+
 st.subheader("Aims")
 st.markdown(
     """
-The final project applies data science concepts and skills to a medical case study from a public data source.
-It assumes prior Python skills (DSHI) and the ability to argue how and why specific techniques enhance the selected problem domain.
+This project applies data-science concepts to a medical case study using a public dataset.
+It demonstrates a reproducible path from **data preparation** → **exploration** → **interactive communication**.
 """
 )
 
-c1, c2, c3 = st.columns(3)
-c1.metric("Pages", "2")
-c2.metric("Status", "Active")
-c3.metric("Theme", "Dark")
+# ---------- KPIs / At-a-glance ----------
+k1, k2, k3, k4 = st.columns(4)
+k1.metric("Pages", "2")
+k2.metric("Status", "Active")
+k3.metric("Theme", "Dark")
+k4.metric("Today", date.today().strftime("%Y-%m-%d"))
 
+st.divider()
 
-
-elif tab == "Project":
-    st.write("## Project")
-    st.markdown("""
-        This mini-project summarizes my end-to-end workflow from the DSHI course.
-        I cleaned and explored a patient-level dataset, engineered features (age groups, BMI bands, hypertension/diabetes flags),
-        and built a baseline logistic regression and a tree-based model to predict stroke risk.
-        I evaluated models with stratified cross-validation and focused on recall and AUC to prioritize case finding.
-        Insights were translated into an interactive dashboard for descriptive trends and simple ‘what-if’ exploration.
-        While the app here uses synthetic data, the structure mirrors the original workflow: inputs on the left, 
-        live charts and key figures on the right, and a table preview.
-        The goal is to demonstrate clear, reproducible steps from data preparation to communication of results.
-    """)
-
-elif tab == "Data":
-    import pandas as pd
-    import numpy as np
-    import plotly.express as px
-
-    @st.cache_data
-    def get_base_data(n=200):
-        rng = np.random.default_rng(42)
-        ages = rng.integers(18, 90, size=n)
-        sbp = rng.normal(130, 18, size=n).clip(80, 220).round().astype(int)
-        afib = rng.choice([0, 1], size=n, p=[0.85, 0.15])
-        risk = (0.35*(ages-18)/72 + 0.45*(sbp-80)/140 + 0.2*afib + rng.normal(0, 0.05, n)).clip(0, 1)
-        return pd.DataFrame({"Age": ages, "SBP": sbp, "AFib": afib, "Risk": risk})
-
-    @st.cache_data
-    def to_csv_bytes(df):
-        return df.to_csv(index=False).encode("utf-8")
-
-    df = get_base_data()
-    st.download_button(
-        label="Download CSV",
-        data=to_csv_bytes(df),
-        file_name="stroke_demo_data.csv",
-        mime="text/csv",
-        icon=":material/download:",
+# ---------- What’s inside ----------
+c1, c2 = st.columns([1, 1])
+with c1:
+    st.subheader("What you can do here")
+    st.markdown(
+        """
+- **Project**: Read a concise summary of the end-to-end workflow and design choices.
+- **Data Explorer**: Interact with synthetic patient records, try unique risk inputs (Age band, SBP, AFib),
+  view a live risk distribution, and edit rows with a modern table.
+- **Downloads**: Export filtered data directly from the explorer page.
+        """
+    )
+with c2:
+    st.subheader("How to navigate")
+    st.markdown(
+        """
+1. Use the **sidebar** to switch pages.
+2. Start with **Project** to understand the context.
+3. Open **Data Explorer** to interact with the demo data and UI widgets.
+        """
     )
 
-    st.subheader("Risk Inputs")
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        age_group = st.select_slider(
-            "Age group",
-            options=["18–39", "40–49", "50–59", "60–69", "70+"],
-            value="50–59"
-        )
-    with c2:
-        sbp_input = st.number_input(
-            "Systolic BP (mmHg)",
-            min_value=80, max_value=220, value=130, step=1
-        )
-    with c3:
-        afib_flag = st.toggle("Atrial fibrillation history", value=False)
+st.divider()
 
-    age_mid = {"18–39": 30, "40–49": 45, "50–59": 55, "60–69": 65, "70+": 75}[age_group]
-    user_risk = float(np.clip(0.35*(age_mid-18)/72 + 0.45*(sbp_input-80)/140 + 0.2*(1 if afib_flag else 0), 0, 1))
-    risk_pct = int(round(user_risk * 100))
+# ---------- Notes ----------
+st.subheader("Notes")
+st.markdown(
+    """
+- The app uses **Streamlit’s multipage pattern** (`pages/` folder) for a clean structure.
+- Visuals, inputs, and layout intentionally differ from other examples to ensure originality.
+- Replace synthetic data with your own sources as needed.
+"""
+)
 
-    def risk_label(p):
-        if p < 20: return "Low"
-        if p < 40: return "Mild"
-        if p < 60: return "Moderate"
-        if p < 80: return "High"
-        return "Very High"
-
-    st.subheader("Summary")
-    s1, s2 = st.columns([1, 1])
-
-    with s1:
-        m1, m2, m3 = st.columns(3)
-        m1.metric("Age group", age_group)
-        m2.metric("SBP", f"{int(sbp_input)} mmHg")
-        m3.metric("AFib history", "Yes" if afib_flag else "No")
-
-    with s2:
-        st.write("Estimated risk")
-        st.progress(risk_pct if risk_pct > 0 else 1)
-        st.caption(f"{risk_pct}% • {risk_label(risk_pct)}")
-
-    st.write("## Interactive Plot")
-    fig = px.histogram(df, x="Risk", nbins=30, title="Risk Distribution (synthetic)")
-    fig.add_vline(x=user_risk, line_dash="dash")
-    st.plotly_chart(fig, use_container_width=True)
-
-    st.write("## Overview")
-    k1, k2, k3 = st.columns(3)
-    k1.metric("Records", len(df))
-    k2.metric("Avg Risk", f"{df['Risk'].mean():.2f}")
-    k3.metric("AFib Prevalence", f"{(df['AFib'].mean()*100):.1f}%")
-
-    st.write("## Patient Records")
-    df_view = df.copy()
-    df_view["AFib"] = df_view["AFib"].astype(bool)
-
-    st.data_editor(
-        df_view,
-        hide_index=True,
-        use_container_width=True,
-        num_rows="dynamic",
-        column_config={
-            "Age": st.column_config.NumberColumn("Age (years)", min_value=18, max_value=100, step=1),
-            "SBP": st.column_config.NumberColumn("Systolic BP (mmHg)", min_value=80, max_value=220, step=1),
-            "AFib": st.column_config.CheckboxColumn("AFib history"),
-            "Risk": st.column_config.ProgressColumn("Risk (0–1)", min_value=0.0, max_value=1.0, format="%.2f"),
-        },
-        disabled=["Risk"],
-    )
+st.caption("© PROHI Carlos — built with Streamlit")
